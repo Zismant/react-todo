@@ -1,34 +1,67 @@
-import React from "react";
+import React, { Component } from "react";
 import "./todo-list-item.css"
 
-const TodoListItem = ({label, important = false}) => {
+export default class TodoListItem extends Component {
 
-  const style = {
-    color: important ? 'tomato' : 'black',
-    fontWeight: important ? 'bold' : 'normal',
-  }
-  return (
-    <span className='todo-list-item'>
+  state = {
+    done: false,
+    important: false,
+  };
+
+  onLabelClick = () => {
+    this.setState(({ done }) => {
+      return {
+        done: !done
+      };
+    });
+  };
+
+  onMarkImportant = () => {
+    this.setState( ({ important }) => {
+      return {
+        important: !important
+      };
+    });
+  };
+
+  render() {
+    const { label, onDeleted } = this.props;
+    const { done, important } = this.state;
+
+    let classNames = 'todo-list-item';
+    if (done) {
+      classNames += ' done';
+    }
+
+    if (important) {
+      classNames += ' important'
+    }
+
+
+    return (
+      <span className={ classNames }>
       <span
         className='todo-list-item-label'
-        style={style}>
+        onClick={ this.onLabelClick }>
         {label}
       </span>
 
       <div>
         <button type='button'
-                className='btn btn-outline-success btn-sm float-right'>
-           <i className="bi bi-exclamation-lg"/>
+                className='btn btn-outline-danger btn-sm float-right'
+                onClick={onDeleted}>
+          <i className='bi bi-trash'/>
         </button>
         <button type='button'
-              className='btn btn-outline-danger btn-sm float-right'>
-          <i className='bi bi-trash'/>
+                className='btn btn-outline-success btn-sm float-right'
+                onClick={ this.onMarkImportant}>
+           <i className="bi bi-exclamation-lg"/>
         </button>
       </div>
 
     </span>
+    );
+  }
+}
 
-  );
-};
 
-export default TodoListItem;
