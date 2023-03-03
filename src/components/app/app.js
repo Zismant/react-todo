@@ -4,10 +4,12 @@ import AppHeader from '../app-header';
 import ItemStatusFilter from "../item-status-filter";
 import SearchPanel from "../search-panel";
 import TodoList from '../todo-list';
+import ItemAddForm from "../item-add-form";
 
 import './app.css';
 
 export default class App extends Component {
+  maxId = 100;
 
   state = {
      todoData: [
@@ -22,9 +24,23 @@ export default class App extends Component {
     // const arr = [...this.state.todoData];
     // const res = arr.filter( item => item.id !== id );
 
-    this.setState( ({todoData}) => {
+    this.setState( ({ todoData }) => {
       const arr = todoData.filter( item => item.id !== id);
       return { todoData: arr };
+    })
+  };
+
+  addItem = (text) => {
+    const newItem = {
+      label: text,
+      important: false,
+      id: this.maxId++,
+    }
+
+    this.setState(({ todoData }) => {
+      return ({
+        todoData: [...todoData, newItem]
+      });
     })
   };
 
@@ -34,7 +50,7 @@ export default class App extends Component {
 
     return (
       <div className='todo-app' >
-        <AppHeader todo={21} done={3} />
+        <AppHeader todo={21} done={todoData.length} />
 
         <div className='top-panel d-flex'>
           <SearchPanel />
@@ -44,6 +60,8 @@ export default class App extends Component {
         <TodoList
           todos={ todoData }
           onDeleted={ this.deleteItem }/>
+
+        <ItemAddForm onItemAdd={this.addItem}/>
       </div>
     );
   }
