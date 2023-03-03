@@ -1,9 +1,9 @@
 import React from 'react';
 
-import TodoList from '../todo-list/todo-list';
-import AppHeader from '../app-header/app-header';
-import SearchPanel from "../search-panel/search-panel";
-import ItemStatusFilter from "../item-status-filter/item-status-filter";
+import AppHeader from '../app-header';
+import ItemStatusFilter from "../item-status-filter";
+import SearchPanel from "../search-panel";
+import TodoList from '../todo-list';
 
 import './app.css';
 
