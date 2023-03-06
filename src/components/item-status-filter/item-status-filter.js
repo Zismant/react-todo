@@ -9,10 +9,11 @@ const filterButtons = [
 const ItemStatusFilter = ( { filter, activeFilter } ) => {
 
   const arrButtons = filterButtons.map( (item,index) => {
+      const styleBtn = filter === item.name ? 'btn btn-info' : ' btn btn-outline-secondary';
       return (
           <button type='button'
                   key={index + item.name}
-                  className='btn btn-info'
+                  className={ styleBtn }
                   onClick={ () => activeFilter(item.name) }>
             { item.label }
           </button>
