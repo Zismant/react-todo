@@ -10,14 +10,16 @@ import './app.css';
 
 export default class App extends Component {
   maxId = 100;
+  todoDataInit =  [
+    {label: 'Забити москаля', important: true, done: false, id: 0},
+    {label: 'Задонатити на ЗСУ', important: false, done: false, id: 1},
+    {label: 'Попити пива', important: false, done: true, id: 2}
+  ];
+  filterInit = 'All';
 
   state = {
-     todoData: [
-       {label: 'Забити москаля', important: true, done: false, id: 0},
-       {label: 'Задонатити на ЗСУ', important: false, done: false, id: 1},
-       {label: 'Попити пива', important: false, done: true, id: 2}
-     ],
-    filter: 'All',
+    todoData: JSON.parse(localStorage.getItem('stateTodoData')) || this.todoDataInit ,
+    filter: JSON.parse(localStorage.getItem('stateFilter')) || this.filterInit,
     term: ''
   };
 
@@ -26,7 +28,7 @@ export default class App extends Component {
       label: label,
       important: false,
       done: false,
-      id: this.maxId++,
+      id: label + this.maxId++,
     }
   };
 
@@ -49,6 +51,8 @@ export default class App extends Component {
         todoData: [...todoData, newItem]
       });
     })
+
+
   };
 
   toggleProperty = (arr, id, propName) => {
@@ -105,6 +109,8 @@ export default class App extends Component {
   };
 
   render() {
+    localStorage.setItem('stateTodoData', JSON.stringify(this.state.todoData));
+    localStorage.setItem('stateFilter', JSON.stringify(this.state.filter));
 
     const { todoData, filter, term } = this.state;
     const doneCount = todoData.filter(item => item.done).length;
